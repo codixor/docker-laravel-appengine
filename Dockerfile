@@ -14,9 +14,7 @@ ENV COMPOSER_FLAGS=${COMPOSER_FLAGS}
 RUN \
     pecl update-channels         && \
     pecl install redis           && \
-    pecl install ffmpeg           && \
     docker-php-ext-enable redis  && \
-    docker-php-ext-enable ffmpeg  && \
     docker-php-ext-install opcache pcntl pdo_mysql && \
     install-swoole-ext.sh async      4.4.14                                   && \
     install-swoole-ext.sh postgresql 4.4.14                                   && \
