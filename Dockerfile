@@ -5,9 +5,9 @@ ARG PMVERSION=master
 
 ENV COMPOSER_FLAGS=${COMPOSER_FLAGS}
 
-RUN apt-get update && apt-get install -y supervisor libmpdec-dev libpq-dev build-essential libsodium-dev unzip python cron libfreetype6-dev && \
-    libfreetype6 libjpeg-dev libgmp-dev re2c libmhash-dev libmcrypt-dev file && \
-    mariadb-client libmagickwand-dev nano --no-install-recommends && \
+RUN apt-get update && apt-get install -y build-essential supervisor r2c unzip python cron nano file && \
+    libfreetype6-dev libjpeg-dev libgmp-dev libmpdec-dev libpq-dev libsodium-dev libmhash-dev libmcrypt-dev && \
+    mariadb-client libmagickwand-dev  --no-install-recommends && \
     ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/local/include/ && \
     pecl update-channels && \
     pecl install redis   && \
