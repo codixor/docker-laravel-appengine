@@ -2,7 +2,7 @@ FROM composer:1.9 as composer
 
 ARG version=dev-master
 ARG http_version=dev-master
-RUN mkdir /ppm && cd /ppm && composer require php-pm/php-pm:${version} && composer require php-pm/httpkernel-adapter:${http_version}
+RUN mkdir /ppm && cd /ppm && composer require php-pm/php-pm:${version}
 
 FROM phpswoole/swoole:4.4.14-php7.2 as phpswoole
 
