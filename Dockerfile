@@ -1,8 +1,8 @@
 FROM phpswoole/swoole:4.4.14-php7.2
 
 ARG COMPOSER_FLAGS='--prefer-dist --ignore-platform-reqs --optimize-autoloader'
-ARG version=dev-master
-ARG http_version=dev-master
+ARG version=master
+ARG http_version=master
 
 ENV COMPOSER_FLAGS=${COMPOSER_FLAGS}
 
