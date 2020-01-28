@@ -1,25 +1,22 @@
-FROM composer:1.9 as composer
-
-ARG version=dev-master
-ARG http_version=dev-master
-RUN mkdir /ppm && cd /ppm && composer require php-pm/php-pm:${version}
-
-FROM phpswoole/swoole:4.4.14-php7.2 as phpswoole
+FROM php:7.2
 
 ARG COMPOSER_FLAGS='--prefer-dist --ignore-platform-reqs --optimize-autoloader'
 ARG PMVERSION=master
 
 ENV COMPOSER_FLAGS=${COMPOSER_FLAGS}
 
-RUN \
-    pecl update-channels         && \
-    pecl install redis           && \
-    docker-php-ext-enable redis  && \
-    docker-php-ext-install opcache pcntl pdo_mysql && \
-    install-swoole-ext.sh async      4.4.14                                   && \
-    install-swoole-ext.sh postgresql 4.4.14                                   && \
-    install-swoole-ext.sh orm        877667f36a0ed2ddaf4bec8f3ca86550766cf119 && \
-    install-swoole-ext.sh serialize  84982d6f6c68e000c1dbbae3bc46d3630ffef798 && \
-    docker-php-ext-enable swoole_async swoole_postgresql swoole_orm swoole_serialize opcache pcntl pdo_mysql
-	
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+RUN apt-get update && apt-get install -y supervisor libsodium-dev unzip python cron libfreetype6-dev libpng-dev libjpeg-dev libgmp-dev re2c libmhash-dev libmcrypt-dev file \
+    mysql-client libmagickwand-dev nano --no-install-recommends && \
+	ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/local/include/ && \
+    pecl update-channels && \
+    pecl install redis   && \
+	pecl install imagick && \
+	pecl install decimal && \
+	pecl install swoole && \
+	docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \		
+	docker-php-ext-install opcache pcntl pdo_mysql gd gmp bcmath sockets && \
+	docker-php-ext-enable imagick redis swoole pcntl  pdo_mysql gd bcmath sockets decimal
+
+RUN mkdir /ppm && cd /ppm && composer require php-pm/php-pm:2.0.3
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
