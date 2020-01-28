@@ -22,4 +22,4 @@ RUN \
     install-swoole-ext.sh serialize  84982d6f6c68e000c1dbbae3bc46d3630ffef798 && \
     docker-php-ext-enable swoole_async swoole_postgresql swoole_orm swoole_serialize opcache pcntl pdo_mysql
 	
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
