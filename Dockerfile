@@ -1,12 +1,11 @@
 FROM phpswoole/swoole:4.4.14-php7.2
 
 ARG COMPOSER_FLAGS='--prefer-dist --ignore-platform-reqs --optimize-autoloader'
-ARG version=master
-ARG http_version=master
+ARG PMVERSION=master
 
 ENV COMPOSER_FLAGS=${COMPOSER_FLAGS}
 
-RUN mkdir /ppm && cd /ppm && composer require php-pm/php-pm:${version} && composer require php-pm/httpkernel-adapter:${http_version}
+RUN composer global require ${COMPOSER_FLAGS} php-pm/php-pm:${PMVERSION}
 
 RUN \
     pecl update-channels         && \
