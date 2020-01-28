@@ -6,8 +6,6 @@ ARG http_version=dev-master
 
 ENV COMPOSER_FLAGS=${COMPOSER_FLAGS}
 
-RUN useradd --create-home www-data
-
 RUN mkdir /ppm && cd /ppm && composer require php-pm/php-pm:${version} && composer require php-pm/httpkernel-adapter:${http_version}
 
 RUN \
