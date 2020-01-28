@@ -6,7 +6,7 @@ ARG PMVERSION=master
 ENV COMPOSER_FLAGS=${COMPOSER_FLAGS}
 
 RUN apt-get update && apt-get install -y supervisor libmpdec-dev libpq-dev build-essential libsodium-dev unzip python cron libfreetype6-dev && \
-    libpng-dev libjpeg-dev libgmp-dev re2c libmhash-dev libmcrypt-dev file && \
+    libjpeg62-turbo-dev libfreetype6 libjpeg-dev libgmp-dev re2c libmhash-dev libmcrypt-dev file && \
     mariadb-client libmagickwand-dev nano --no-install-recommends && \
     ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/local/include/ && \
     pecl update-channels && \
