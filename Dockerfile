@@ -6,7 +6,7 @@ ARG PMVERSION=master
 ENV COMPOSER_FLAGS=${COMPOSER_FLAGS}
 
 RUN apt-get update && apt-get install -y supervisor libsodium-dev unzip python cron libfreetype6-dev libpng-dev libjpeg-dev libgmp-dev re2c libmhash-dev libmcrypt-dev file \
-    mysql-client libmagickwand-dev nano --no-install-recommends && \
+    mariadb-client libmagickwand-dev nano --no-install-recommends && \
 	ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/local/include/ && \
     pecl update-channels && \
     pecl install redis   && \
