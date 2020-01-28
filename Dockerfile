@@ -5,8 +5,15 @@ ARG PMVERSION=master
 
 ENV COMPOSER_FLAGS=${COMPOSER_FLAGS}
 
+RUN apt-get update && apt-get install -y pkg-config patch
+ADD https://git.archlinux.org/svntogit/packages.git/plain/trunk/freetype.patch?h=packages/php&id=a8e8e87f405e0631b2a4552656413735ebf9457c /tmp/freetype.patch
+RUN docker-php-source extract; \
+  cd /usr/src/php; \
+  patch -p1 -i /tmp/freetype.patch; \
+  rm /tmp/freetype.patch
+  
 RUN apt-get update && apt-get install -y build-essential supervisor re2c unzip python cron nano file && \
-    libfreetype6-dev libjpeg-dev libgmp-dev libmpdec-dev libpq-dev libsodium-dev libmhash-dev libmcrypt-dev && \
+    libjpeg-dev libgmp-dev libmpdec-dev libpq-dev libsodium-dev libmhash-dev libmcrypt-dev && \
     mariadb-client libmagickwand-dev --no-install-recommends && \
     ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/local/include/ && \
     pecl update-channels && \
