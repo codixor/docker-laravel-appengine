@@ -20,7 +20,7 @@ RUN apk --no-cache add tzdata && \
 RUN apk --no-cache add supervisor
 
 RUN apk add --update curl wget bash openssl libstdc++ \
-        openssl-dev php7-dev imagemagick-dev libc-dev freetype-dev libjpeg-turbo-dev libpng-dev\
+        openssl-dev php7-dev imagemagick-dev libc-dev freetype-dev libjpeg-turbo-dev libpng-dev libmagickwand-dev libmagickcore-dev\
         autoconf make pkgconf g++ gcc build-base linux-headers \
         php7 php7-opcache php7-fpm php7-cgi php7-ctype php7-json php7-dom php7-zip php7-zip php7-gd \
         php7-curl php7-mbstring php7-mcrypt php7-bcmath php7-iconv php7-posix \
@@ -60,11 +60,11 @@ RUN apk add --update curl wget bash openssl libstdc++ \
     && cd /tmp \
     && wget https://github.com/Imagick/imagick/archive/3.4.4.zip \
     && unzip 3.4.4.zip && cd imagick-3.4.4 \
-    && /usr/bin/phpize7 && ./configure --with-php-config=/usr/local/bin/php-config7 --with-imagick=/usr/local/lib \
+    && /usr/bin/phpize7 && ./configure --with-imagick=/usr/local/lib --with-php-config=/usr/local/bin/php-config7 \
     && make && make install \
     && echo extension=imagick.so >> /etc/php7/conf.d/01_imagick.ini \
 	
-    && apk del openssl-dev php7-dev imagemagick-dev libc-dev freetype-dev libjpeg-turbo-dev libpng-dev autoconf make pkgconf g++ gcc build-base \
+    && apk del openssl-dev php7-dev imagemagick-dev libc-dev freetype-dev libjpeg-turbo-dev libpng-dev libmagickwand-dev libmagickcore-dev autoconf make pkgconf g++ gcc build-base \
     && rm -rf /var/cache/apk/* /tmp/* /usr/share/man \
     && php -m && php --ri swoole
 
