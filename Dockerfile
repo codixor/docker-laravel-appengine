@@ -4,9 +4,9 @@ RUN mkdir /ppm && cd /ppm && composer require php-pm/php-pm:2.0.3
 
 FROM alpine:3.9
 
-RUN echo 'http://alpine.gliderlabs.com/alpine/edge/main' > /etc/apk/repositories && \
-    echo 'http://alpine.gliderlabs.com/alpine/edge/community' >> /etc/apk/repositories && \
-    echo 'http://alpine.gliderlabs.com/alpine/edge/testing' >> /etc/apk/repositories && \
+RUN echo 'http://alpine.gliderlabs.com/alpine/3.9/main' > /etc/apk/repositories && \
+    echo 'http://alpine.gliderlabs.com/alpine/3.9/community' >> /etc/apk/repositories && \
+    echo 'http://alpine.gliderlabs.com/alpine/3.9/testing' >> /etc/apk/repositories && \
 	
 ENV SWOOLE_VERSION=4.4.14
 
@@ -29,7 +29,7 @@ RUN apk add --update --no-cache curl wget bash openssl libstdc++ \
 
     && ln -sfv /usr/bin/php7 /usr/bin/php && ln -sfv /usr/bin/php-config7 /usr/bin/php-config && ln -sfv /usr/bin/phpize7 /usr/bin/phpize && ln -sf /usr/sbin/php-fpm7 /usr/bin/php-fpm \
 	
-	&& cd /tmp \
+    && cd /tmp \
     && wget https://github.com/ImageMagick/ImageMagick/archive/7.0.9-19.zip \
     && unzip 7.0.9-19.zip && cd ImageMagick-7.0.9-19 \
     && ./configure --with-bzlib=yes --with-fontconfig=yes --with-freetype=yes --with-gslib=yes --with-gvc=yes --with-jpeg=yes --with-jp2=yes --with-png=yes --with-tiff=yes && make clean && make && make install && \
@@ -64,7 +64,7 @@ RUN apk add --update --no-cache curl wget bash openssl libstdc++ \
     && echo extension=swoole.so >> /etc/php7/conf.d/01_swoole.ini \
 	
     && sed -ie 's/-n//g' /usr/bin/pecl \
-    &&  yes | pecl install imagick \    
+    && yes | pecl install imagick \    
     && echo extension=imagick.so >> /etc/php7/conf.d/01_imagick.ini \
 	
     && apk del --purge openssl-dev php7-dev imagemagick-dev libc-dev freetype-dev libjpeg-turbo-dev libpng-dev libtool autoconf make pkgconf g++ gcc build-base linux-headers patch pcre-dev imap \
