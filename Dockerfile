@@ -1,10 +1,8 @@
 FROM composer:1.9 as composer
 
-ARG version=dev-master
-ARG http_version=dev-master
-RUN mkdir /ppm && cd /ppm && composer require php-pm/php-pm:${version} && composer require php-pm/httpkernel-adapter:${http_version}
+RUN mkdir /ppm && cd /ppm && composer require php-pm/php-pm
 
-FROM alpine:3.8 as phpswoole
+FROM alpine:3.8
 
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
@@ -24,7 +22,6 @@ RUN apk --no-cache add supervisor \
 ADD etc/php.ini /etc/php7/php.ini
 
 RUN apk --no-cache add bash
-
 
 COPY --from=composer /ppm /ppm
 
