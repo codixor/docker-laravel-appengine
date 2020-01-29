@@ -55,7 +55,7 @@ RUN apk add --update curl wget bash openssl libstdc++ \
     && wget https://github.com/ImageMagick/ImageMagick/archive/7.0.9-19.zip \
     && unzip 7.0.9-19.zip && cd ImageMagick-7.0.9-19 \
     && ./configure --with-bzlib=yes --with-fontconfig=yes --with-freetype=yes --with-gslib=yes --with-gvc=yes --with-jpeg=yes --with-jp2=yes --with-png=yes --with-tiff=yes && make clean && make && make install && \
-    make clean && ldconfig /usr/local/lib
+    make clean && ldconfig /usr/local/lib \
 	
     && cd /tmp \
     && wget https://github.com/Imagick/imagick/archive/3.4.4.zip \
