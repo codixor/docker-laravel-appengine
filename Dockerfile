@@ -60,7 +60,7 @@ RUN apk add --update curl wget bash openssl libstdc++ \
     && cd /tmp \
     && wget https://github.com/Imagick/imagick/archive/3.4.4.zip \
     && unzip 3.4.4.zip && cd imagick-3.4.4 \
-    && /usr/bin/phpize7 && ./configure  --with-php-config=/usr/local/bin/php-config7 --with-imagick=/usr/local/lib \
+    && /usr/bin/phpize7 && ./configure --with-php-config=/usr/local/bin/php-config7 --with-imagick=/usr/local/lib \
     && make && make install \
     && echo extension=imagick.so >> /etc/php7/conf.d/01_imagick.ini \
 	
