@@ -5,7 +5,7 @@ ARG PMVERSION=master
 
 ENV COMPOSER_FLAGS=${COMPOSER_FLAGS}
 
-RUN apt-get update && apt-get install -y build-essential supervisor r2c unzip python cron nano file && \
+RUN apt-get update && apt-get install -y build-essential supervisor unzip python cron nano file && \
     libfreetype6-dev libjpeg-dev libgmp-dev libmpdec-dev libpq-dev libmhash-dev libmcrypt-dev && \
     mariadb-client libmagickwand-dev --no-install-recommends && \
     ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/local/include/ && \
