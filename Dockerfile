@@ -39,8 +39,8 @@ RUN apk add --update --no-cache curl wget bash openssl libstdc++ \
     && echo extension=igbinary.so >> /etc/php7/conf.d/01_igbinary.ini \
 	
     && cd /tmp \
-    && wget https://github.com/igbinary/igbinary/archive/3.1.2.zip \
-    && unzip master.zip && cd uploadprogress-master \
+    && wget https://github.com/php/pecl-php-uploadprogress/archive/uploadprogress-1.1.3.zip \
+    && unzip uploadprogress-1.1.3.zip && cd uploadprogress-1.1.3 \
     && /usr/bin/phpize7 && ./configure --with-php-config=/usr/bin/php-config7 \
     && make && make install \
     && echo extension=uploadprogress.so >> /etc/php7/conf.d/01_uploadprogress.ini \
