@@ -3,10 +3,6 @@ FROM composer:1.9 as composer
 RUN mkdir /ppm && cd /ppm && composer require php-pm/php-pm:2.0.3
 
 FROM alpine:3.9
-
-RUN echo 'http://alpine.gliderlabs.com/alpine/3.9/main' > /etc/apk/repositories && \
-    echo 'http://alpine.gliderlabs.com/alpine/3.9/community' >> /etc/apk/repositories && \
-    echo 'http://alpine.gliderlabs.com/alpine/3.9/testing' >> /etc/apk/repositories && \
 	
 ENV SWOOLE_VERSION=4.4.14
 
