@@ -53,7 +53,7 @@ RUN apk add --update curl wget bash openssl libstdc++ \
     && cd /tmp \
     && wget https://github.com/swoole/swoole-src/archive/v${SWOOLE_VERSION}.zip \
     && unzip v${SWOOLE_VERSION}.zip && cd swoole-src-${SWOOLE_VERSION} \
-    && /usr/bin/phpize7 && ./configure --enable-openssl --enable-sockets --with-php-config=/usr/bin/php-config7 \
+    && /usr/bin/phpize7 && ./configure --enable-http2 --enable-mysqlnd --enable-openssl --enable-sockets --with-php-config=/usr/bin/php-config7 \
     && make && make install \
     && echo extension=swoole.so >> /etc/php7/conf.d/01_swoole.ini \
 	
