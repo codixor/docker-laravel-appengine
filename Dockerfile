@@ -40,7 +40,7 @@ RUN apk add --update --no-cache curl wget bash openssl libstdc++ \
 	
     && cd /tmp \
     && wget https://github.com/php/pecl-php-uploadprogress/archive/uploadprogress-1.1.3.zip \
-    && unzip pecl-php-uploadprogress-uploadprogress-1.1.3.zip && cd pecl-php-uploadprogress-uploadprogress-1.1.3 \
+    && unzip uploadprogress-1.1.3.zip && cd pecl-php-uploadprogress-uploadprogress-1.1.3 \
     && /usr/bin/phpize7 && ./configure --with-php-config=/usr/bin/php-config7 \
     && make && make install \
     && echo extension=uploadprogress.so >> /etc/php7/conf.d/01_uploadprogress.ini \
