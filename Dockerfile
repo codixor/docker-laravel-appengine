@@ -3,7 +3,10 @@ FROM composer:1.9 as composer
 RUN mkdir /ppm && cd /ppm && composer require php-pm/php-pm:2.0.3
 
 FROM alpine:edge
-	
+
+ARG COMPOSER_FLAGS='--prefer-dist --ignore-platform-reqs --optimize-autoloader'
+ENV COMPOSER_FLAGS=${COMPOSER_FLAGS}
+
 ENV SWOOLE_VERSION=4.4.15
 
 ENV LC_ALL en_US.UTF-8
@@ -15,11 +18,11 @@ RUN apk --no-cache add tzdata && \
     apk del tzdata
 
 ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php7-dev php7-pear \
-    libevent-dev openssl-dev imagemagick-dev
+    libevent-dev openssl-dev imagemagick-dev freetype-dev libjpeg-turbo-dev libpng-dev pcre-dev
 
 RUN apk add --no-cache --update --repository http://dl-cdn.alpinelinux.org/alpine/v3.9/community/ --allow-untrusted \
         curl wget bash openssl libstdc++ freetype-dev libjpeg-turbo-dev \
-        libpng-dev libtool patch pcre-dev imap autoconf build-base linux-headers \
+        libpng-dev libtool patch imap autoconf build-base linux-headers \
         php7 php7-opcache php7-fpm php7-cgi php7-ctype php7-json php7-dom php7-zip php7-zip php7-gd \
         php7-curl php7-mbstring php7-mcrypt php7-bcmath php7-iconv php7-posix \
         php7-pdo_mysql php7-tokenizer php7-simplexml php7-session php7-exif php7-pcntl php7-zlib \
@@ -49,13 +52,15 @@ RUN set -xe \
     && rm -rf /usr/share/php7 \   
     && apk del .phpize-deps
 	
-RUN apk del --purge openssl-dev php7-dev php7-pear imagemagick-dev libc-dev freetype-dev libjpeg-turbo-dev libpng-dev libtool patch build-base linux-headers autoconf make pkgconf re2c g++ gcc build-base linux-headers libstdc++ patch pcre-dev imap \
-    && rm -rf /var/cache/apk/* /tmp/* /usr/share/man /usr/include/php /root/.composer   
+RUN apk del --purge libtool build-base linux-headers libstdc++ patch imap \
+    && rm -rf /var/cache/apk/* /tmp/* /usr/share/man /usr/include/php /root/.composer
 
-ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
+#ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
-RUN apk --no-cache add bash
+#RUN apk --no-cache add bash
 
 COPY --from=composer /ppm /ppm
+
+COPY supervisord.conf /etc/supervisor/supervisord.conf
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
