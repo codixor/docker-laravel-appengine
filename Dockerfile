@@ -34,14 +34,7 @@ RUN apk add --update --no-cache curl wget bash openssl libstdc++ \
     && wget https://github.com/ImageMagick/ImageMagick/archive/7.0.9-19.zip \
     && unzip 7.0.9-19.zip && cd ImageMagick-7.0.9-19 \
     && ./configure --with-bzlib=yes --with-fontconfig=yes --with-freetype=yes --with-gslib=yes --with-gvc=yes --with-jpeg=yes --with-jp2=yes --with-png=yes --with-tiff=yes && make clean && make && make install && \
-    make clean && ldconfig /usr/local/lib \
-	
-    && cd /tmp \
-    && wget https://github.com/php/pecl-php-uploadprogress/archive/uploadprogress-1.1.3.zip \
-    && unzip uploadprogress-1.1.3.zip && cd pecl-php-uploadprogress-uploadprogress-1.1.3 \
-    && /usr/bin/phpize7 && ./configure --with-php-config=/usr/bin/php-config7 \
-    && make && make install \
-    && echo extension=uploadprogress.so >> /etc/php7/conf.d/01_uploadprogress.ini
+    make clean && ldconfig /usr/local/lib
 	
 RUN set -xe \
     && apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
@@ -49,6 +42,8 @@ RUN set -xe \
     $PHPIZE_DEPS \
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
     && pecl channel-update pecl.php.net \    
+	&& pecl install uploadprogress \
+    && echo "extension=uploadprogress.so" > /etc/php7/conf.d/01_uploadprogress.ini \
 	&& pecl install imagick \
     && echo "extension=imagick.so" > /etc/php7/conf.d/01_imagick.ini \
 	&& pecl install redis \
