@@ -272,9 +272,13 @@ RUN GPG_KEYS=a \
 	&& ln -sf /dev/stderr /var/log/nginx/error.log
 
 RUN apk del .modsec-build-deps
-
+RUN rm -fR /libmaxminddb-1.4.2.tar.gz
+    
 COPY --from=composer /ppm /ppm
 COPY --from=composer /usr/bin/composer /usr/bin/composer
+
+COPY ppm /usr/bin/ppm
+RUN chmod +x /usr/bin/ppm
 
 COPY /conf /etc/nginx
 
