@@ -279,16 +279,15 @@ RUN rm -fR /usr/src/*
     
 COPY --from=composer /ppm /ppm
 COPY --from=composer /usr/bin/composer /usr/bin/composer
-
 COPY ppm /usr/bin/ppm
-RUN chmod +x /usr/bin/ppm
-
 COPY /conf /etc/nginx
-
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY sysctl.conf /etc/sysctl.conf
 COPY php.ini /etc/php7/php.ini
 
-ENTRYPOINT ["/syctl-entry.sh"]
+RUN chmod +x /usr/bin/ppm
+RUN chmod +x sysctl-entry.sh
+
+ENTRYPOINT ["sysctl-entry.sh"]
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
