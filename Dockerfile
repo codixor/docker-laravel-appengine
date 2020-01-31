@@ -286,8 +286,8 @@ COPY sysctl.conf /etc/sysctl.conf
 COPY php.ini /etc/php7/php.ini
 
 RUN chmod +x /usr/bin/ppm
-RUN chmod +x sysctl-entry.sh
+RUN chmod +x /sysctl-entry.sh
 
-ENTRYPOINT ["sysctl-entry.sh"]
+ENTRYPOINT ["/sysctl-entry.sh"]
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
