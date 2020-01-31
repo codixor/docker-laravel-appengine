@@ -273,6 +273,9 @@ RUN GPG_KEYS=a \
 
 RUN apk del .modsec-build-deps
 RUN rm -fR /libmaxminddb-1.4.2.tar.gz
+RUN rm -fR /libmaxminddb-1.4.2
+RUN rm -fR /ngx_http_geoip2_module
+RUN rm -fR /usr/src/*
     
 COPY --from=composer /ppm /ppm
 COPY --from=composer /usr/bin/composer /usr/bin/composer
