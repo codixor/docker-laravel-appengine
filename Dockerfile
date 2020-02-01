@@ -25,7 +25,7 @@ ENV HEADERS_MORE_VERSION=0.33
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 
-RUN apk --no-cache add tzdata mariadb-client && \
+RUN apk --no-cache add tzdata && \
     cp /usr/share/zoneinfo/Etc/UTC /etc/localtime && \
     echo "UTC" | tee /etc/timezone && \
     apk del tzdata
@@ -241,9 +241,9 @@ RUN GPG_KEYS=a \
     && curl -fSL https://raw.githubusercontent.com/nginx/nginx/master/conf/mime.types -o mime.types \
     && curl -fSL https://raw.githubusercontent.com/nginx/nginx/master/conf/fastcgi_params -o fastcgi_params \
 	&& curl -fSL https://gist.githubusercontent.com/romanoffs/29b981cccff51b0ea564e258e1ed2e85/raw/17bdc5b7c940604d84a9481fe28010d7b93ab043/cloudflare.conf -o cloudflare.conf \
-	&& mv /usr/src/mime.types /etc/ \
-	&& mv /usr/src/fastcgi_params /etc/ \
-	&& mv /usr/src/cloudflare.conf /etc/ \
+	&& mv /usr/src/mime.types /etc/nginx/ \
+	&& mv /usr/src/fastcgi_params /etc/nginx/ \
+	&& mv /usr/src/cloudflare.conf /etc/nginx/ \
 	\
 	# Bring in gettext so we can get `envsubst`, then throw
 	# the rest away. To do this, we need to install `gettext`
