@@ -287,4 +287,4 @@ COPY php.ini /etc/php7/php.ini
 
 RUN chmod +x /usr/bin/ppm
 
-CMD ["sysctl", "-p", "&&", "/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
