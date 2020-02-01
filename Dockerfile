@@ -284,11 +284,7 @@ COPY /conf /etc/nginx
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY sysctl.conf /etc/sysctl.conf
 COPY php.ini /etc/php7/php.ini
-COPY sysctl-entry.sh /sysctl-entry.sh
 
 RUN chmod +x /usr/bin/ppm
-RUN chmod +x /sysctl-entry.sh
 
-ENTRYPOINT ["/sysctl-entry.sh"]
-
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+CMD ["sysctl", "-p", "&&", "/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
