@@ -11,19 +11,24 @@ ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
     PHP_OPCACHE_MEMORY_CONSUMPTION="1024" \
     PHP_OPCACHE_MAX_WASTED_PERCENTAGE="10" \
     PHP_UPLOAD_MAX_FILESIZE="40M" \
-    PHP_POST_MAX_SIZE="40M" 
+    PHP_POST_MAX_SIZE="40M" \
+    PHP_FPM_PM_TYPE = dynamic \
+    PHP_FPM_PM_MAX_CHILDREN = 5 \
+    PHP_FPM_PM_START_SERVERS = 2 \
+    PHP_FPM_MIN_SPARE_SERVERS = 1 \
+    PHP_FPM_MAX_SPARE_SERVERS = 3 \
+    PHP_FPM_MAX_REQUESTS = 500
 
-ENV NGINX_VERSION 1.17.8
-ENV LUA_MODULE_VERSION 0.10.13
-ENV DEVEL_KIT_MODULE_VERSION 0.3.0
-ENV LUAJIT_LIB=/usr/lib
-ENV LUAJIT_INC=/usr/include/luajit-2.1
-ENV MAXMIND_VERSION=1.4.2
-ENV NGX_BROTLI_COMMIT e505dce68acc190cc5a1e780a3b0275e39f160ca
-ENV HEADERS_MORE_VERSION=0.33
-
-ENV LC_ALL en_US.UTF-8
-ENV LANG en_US.UTF-8
+ENV NGINX_VERSION 1.17.8 \
+    LUA_MODULE_VERSION 0.10.13 \
+    DEVEL_KIT_MODULE_VERSION 0.3.0 \
+    LUAJIT_LIB=/usr/lib \
+    LUAJIT_INC=/usr/include/luajit-2.1 \
+    MAXMIND_VERSION=1.4.2 \
+    NGX_BROTLI_COMMIT e505dce68acc190cc5a1e780a3b0275e39f160ca \
+    HEADERS_MORE_VERSION=0.33 \
+    LC_ALL en_US.UTF-8 \
+    LANG en_US.UTF-8
 
 RUN apk --no-cache add tzdata && \
     cp /usr/share/zoneinfo/Etc/UTC /etc/localtime && \
@@ -285,6 +290,7 @@ COPY /conf /etc/nginx
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY sysctl.conf /etc/sysctl.conf
 COPY php.ini /etc/php7/php.ini
+COPY www.conf /etc/php7/php-fpm.d/www.conf
 
 RUN chmod +x /usr/bin/ppm
 
