@@ -109,6 +109,7 @@ RUN GPG_KEYS=a \
 		--with-threads \
 		--with-stream \
 		--with-stream_ssl_module \
+		--with-stream_ssl_preread_module \
 		--with-http_slice_module \
 		--with-mail \
 		--with-mail_ssl_module \
