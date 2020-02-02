@@ -13,7 +13,7 @@ ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
     PHP_UPLOAD_MAX_FILESIZE="40M" \
     PHP_POST_MAX_SIZE="40M" 
 
-ENV NGINX_VERSION 1.17.7
+ENV NGINX_VERSION 1.17.8
 ENV LUA_MODULE_VERSION 0.10.13
 ENV DEVEL_KIT_MODULE_VERSION 0.3.0
 ENV LUAJIT_LIB=/usr/lib
@@ -42,7 +42,7 @@ RUN apk add --no-cache --update --repository http://dl-cdn.alpinelinux.org/alpin
         php7-xml php7-sockets php7-openssl php7-fileinfo php7-ldap php7-xmlwriter php7-phar \
         php7-intl \
 		&& apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ --allow-untrusted \
-        gnu-libiconv imagemagick youtube-dl supervisor
+        gnu-libiconv imagemagick youtube-dl supervisor ffmpeg
 		
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
