@@ -299,7 +299,9 @@ RUN chmod +x /usr/bin/ppm
 
 
 # Setup document root
-RUN mkdir -p /var/www/html
+RUN mkdir -p /var/www/html \
+    && mkdir -p /var/lib/nginx \
+	&& mkdir -p /var/tmp/nginx
 
 # Make sure files/folders needed by the processes are accessable when they run under the nobody user
 RUN chown -R nobody.nobody /var/www/html && \
