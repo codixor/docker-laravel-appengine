@@ -249,10 +249,7 @@ RUN GPG_KEYS=a \
     && cd /usr/src \
     && curl -fSL https://raw.githubusercontent.com/nginx/nginx/master/conf/mime.types -o mime.types \
     && curl -fSL https://raw.githubusercontent.com/nginx/nginx/master/conf/fastcgi_params -o fastcgi_params \
-	&& curl -fSL https://gist.githubusercontent.com/romanoffs/29b981cccff51b0ea564e258e1ed2e85/raw/17bdc5b7c940604d84a9481fe28010d7b93ab043/cloudflare.conf -o cloudflare.conf \
-	&& curl -fSL http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz -o /etc/nginx/GeoLite2-City.mmdb.gz \
-    && curl -fSL http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz -o /etc/nginx/GeoLite2-Country.mmdb.gz \
-    && gunzip /etc/nginx/GeoLite2-City.mmdb.gz \
+	&& curl -fSL https://gist.githubusercontent.com/romanoffs/29b981cccff51b0ea564e258e1ed2e85/raw/17bdc5b7c940604d84a9481fe28010d7b93ab043/cloudflare.conf -o cloudflare.conf \	
     && gunzip /etc/nginx/GeoLite2-Country.mmdb.gz \
 	&& mv /usr/src/mime.types /etc/nginx/ \
 	&& mv /usr/src/fastcgi_params /etc/nginx/ \
