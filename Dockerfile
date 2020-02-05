@@ -314,9 +314,6 @@ RUN chown -R nginx.nginx /var/www/html && \
 # Make the document root a volume
 VOLUME /var/www/html
 
-# Switch to use a non-root user from here on
-USER nginx
-
 # Add application
 WORKDIR /var/www/html
 COPY --chown=nginx src/ /var/www/html/
