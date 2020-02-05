@@ -13,7 +13,8 @@ ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
     PHP_UPLOAD_MAX_FILESIZE="40M" \
     PHP_POST_MAX_SIZE="40M" \
     PHP_FPM_LISTEN="127.0.0.1:9000" \
-    PHP_FPM_USER="nobody" \     
+    PHP_FPM_USER="nginx" \
+    PHP_FPM_GROUP="nginx" \
     PHP_FPM_PM_TYPE="dynamic" \    
     PHP_FPM_PM_MAX_CHILDREN="5" \
     PHP_FPM_PM_START_SERVERS="2" \
@@ -303,22 +304,21 @@ RUN mkdir -p /var/www/html \
     && mkdir -p /var/lib/nginx \
 	&& mkdir -p /var/tmp/nginx
 
-# Make sure files/folders needed by the processes are accessable when they run under the nobody user
-RUN chown -R nobody.nobody /var/www/html && \
-  chown -R nobody.nobody /run && \
-  chown -R nobody.nobody /var/lib/nginx && \
-  chown -R nobody.nobody /var/tmp/nginx && \
-  chown -R nobody.nobody /var/log/php7 && \
-  chown -R nobody.nobody /var/log/nginx
+# Make sure files/folders needed by the processes are accessable when they run under the nginx user
+RUN chown -R nginx.nginx /var/www/html && \
+  chown -R nginx.nginx /var/lib/nginx && \
+  chown -R nginx.nginx /var/tmp/nginx && \
+  chown -R nginx.nginx /var/log/php7 && \
+  chown -R nginx.nginx /var/log/nginx
 
 # Make the document root a volume
 VOLUME /var/www/html
 
 # Switch to use a non-root user from here on
-USER nobody
+USER nginx
 
 # Add application
 WORKDIR /var/www/html
-COPY --chown=nobody src/ /var/www/html/
+COPY --chown=nginx src/ /var/www/html/
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
