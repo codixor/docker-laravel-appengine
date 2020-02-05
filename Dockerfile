@@ -308,6 +308,7 @@ RUN chown -R nobody.nobody /var/www/html && \
   chown -R nobody.nobody /run && \
   chown -R nobody.nobody /var/lib/nginx && \
   chown -R nobody.nobody /var/tmp/nginx && \
+  chown -R nobody.nobody /var/log/php7 && \
   chown -R nobody.nobody /var/log/nginx
 
 # Make the document root a volume
