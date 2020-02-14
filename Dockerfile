@@ -13,8 +13,7 @@ ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
     PHP_UPLOAD_MAX_FILESIZE="40M" \
     PHP_POST_MAX_SIZE="40M" \
     PHP_FPM_LISTEN="127.0.0.1:9000" \
-    PHP_FPM_USER="nginx" \
-    PHP_FPM_GROUP="nginx" \
+    PHP_FPM_USER="nobody" \     
     PHP_FPM_PM_TYPE="dynamic" \    
     PHP_FPM_PM_MAX_CHILDREN="5" \
     PHP_FPM_PM_START_SERVERS="2" \
@@ -250,8 +249,8 @@ RUN GPG_KEYS=a \
     && cd /usr/src \
     && curl -fSL https://raw.githubusercontent.com/nginx/nginx/master/conf/mime.types -o mime.types \
     && curl -fSL https://raw.githubusercontent.com/nginx/nginx/master/conf/fastcgi_params -o fastcgi_params \
-    && curl -fSL https://gist.githubusercontent.com/romanoffs/29b981cccff51b0ea564e258e1ed2e85/raw/17bdc5b7c940604d84a9481fe28010d7b93ab043/cloudflare.conf -o cloudflare.conf \	
-    && mv /usr/src/mime.types /etc/nginx/ \
+	&& curl -fSL https://gist.githubusercontent.com/romanoffs/29b981cccff51b0ea564e258e1ed2e85/raw/17bdc5b7c940604d84a9481fe28010d7b93ab043/cloudflare.conf -o cloudflare.conf \
+	&& mv /usr/src/mime.types /etc/nginx/ \
 	&& mv /usr/src/fastcgi_params /etc/nginx/ \
 	&& mv /usr/src/cloudflare.conf /etc/nginx/ \
 	\
@@ -280,7 +279,7 @@ RUN GPG_KEYS=a \
 	# forward request and error logs to docker log collector
 	&& ln -sf /dev/stdout /var/log/nginx/access.log \
 	&& ln -sf /dev/stderr /var/log/nginx/error.log
-	
+
 RUN apk del .modsec-build-deps
 RUN rm -fR /libmaxminddb-1.4.2.tar.gz
 RUN rm -fR /libmaxminddb-1.4.2
@@ -304,11 +303,21 @@ RUN mkdir -p /var/www/html \
     && mkdir -p /var/lib/nginx \
 	&& mkdir -p /var/tmp/nginx
 
-# Make sure files/folders needed by the processes are accessable when they run under the nginx user
-RUN chown -R nginx.nginx /var/www/html && \
-  chown -R nginx.nginx /var/lib/nginx && \
-  chown -R nginx.nginx /var/tmp/nginx && \
-  chown -R nginx.nginx /var/log/php7 && \
-  chown -R nginx.nginx /var/log/nginx
+# Make sure files/folders needed by the processes are accessable when they run under the nobody user
+RUN chown -R nobody.nobody /var/www/html && \
+  chown -R nobody.nobody /run && \
+  chown -R nobody.nobody /var/lib/nginx && \
+  chown -R nobody.nobody /var/tmp/nginx && \
+  chown -R nobody.nobody /var/log/nginx
+
+# Make the document root a volume
+VOLUME /var/www/html
+
+# Switch to use a non-root user from here on
+USER nobody
+
+# Add application
+WORKDIR /var/www/html
+COPY --chown=nobody src/ /var/www/html/
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
