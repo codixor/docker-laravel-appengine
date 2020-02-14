@@ -311,11 +311,4 @@ RUN chown -R nginx.nginx /var/www/html && \
   chown -R nginx.nginx /var/log/php7 && \
   chown -R nginx.nginx /var/log/nginx
 
-# Make the document root a volume
-#VOLUME /var/www/html
-
-# Add application
-#WORKDIR /var/www/html
-RUN chown nginx.nginx src/ /var/www/html/
-
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
