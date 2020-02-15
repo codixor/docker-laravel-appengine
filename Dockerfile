@@ -38,9 +38,6 @@ RUN apk --no-cache add tzdata && \
     echo "UTC" | tee /etc/timezone && \
     apk del tzdata
 
-ENV PHPIZE_DEPS autoconf file g++ gcc libc-dev make pkgconf re2c php7-dev php7-pear \
-    libevent-dev openssl-dev imagemagick-dev freetype-dev libjpeg-turbo-dev libpng-dev pcre-dev 
-
 RUN apk add --no-cache --update --repository http://dl-cdn.alpinelinux.org/alpine/v3.8/community/ --allow-untrusted \
         curl wget bash openssl libstdc++ \
         libtool patch imap build-base linux-headers \
@@ -58,8 +55,9 @@ RUN ln -sfv /usr/bin/php7 /usr/bin/php && ln -sfv /usr/bin/php-config7 /usr/bin/
 	
 RUN set -xe \
     && apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
-    --virtual .phpize-deps \
-    $PHPIZE_DEPS \
+    --virtual  autoconf file g++ gcc libc-dev make pkgconf re2c php7-dev php7-pear \
+    libevent-dev openssl-dev imagemagick-dev freetype-dev libjpeg-turbo-dev libpng-dev pcre-dev .phpize-deps \
+   
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
     && pecl channel-update pecl.php.net \    
 	&& pecl install uploadprogress \
