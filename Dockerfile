@@ -59,7 +59,6 @@ RUN ln -sfv /usr/bin/php7 /usr/bin/php && ln -sfv /usr/bin/php-config7 /usr/bin/
 RUN set -xe \
     && apk add --no-cache --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
     --virtual .phpize-deps \
-    $PHPIZE_DEPS \
     && sed -i 's/^exec $PHP -C -n/exec $PHP -C/g' $(which pecl) \
     && pecl channel-update pecl.php.net \    
 	&& pecl install uploadprogress \
